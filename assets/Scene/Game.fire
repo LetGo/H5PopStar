@@ -69,10 +69,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 16
+        "__id__": 15
       },
       {
-        "__id__": 17
+        "__id__": 16
       }
     ],
     "_prefab": null,
@@ -573,11 +573,7 @@
     "_children": [],
     "_tag": -1,
     "_active": true,
-    "_components": [
-      {
-        "__id__": 15
-      }
-    ],
+    "_components": [],
     "_prefab": null,
     "_id": "0efgqfQNRHOK365QFXL7UD",
     "_opacity": 255,
@@ -616,16 +612,6 @@
     "groupIndex": 0
   },
   {
-    "__type__": "ade3eo4puFF2p4LgSW57YjX",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 14
-    },
-    "_enabled": true,
-    "newGameBtn": null
-  },
-  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -652,8 +638,9 @@
     "menuState": {
       "__id__": 13
     },
-    "states": [],
-    "stage": -1,
-    "score": 0
+    "_states": [],
+    "_currState": null,
+    "_stage": -1,
+    "_score": 0
   }
 ]
