@@ -1,17 +1,26 @@
-var Globle = function() {
-    this.init();
+
+cc.info("-------------- init Global begin --------------- ")
+
+var Config ={
+    isDebug:true,
+    clearScore:[
+        1000,
+        3000,
+        6000,
+        8000,
+        10000,
+        13000,
+        15000,
+        17000,
+        20000,
+    ],
+
 };
 
-Globle.prototype.init = function() {
 
+window.Globle = {
+    config : Config,
+    gameMain:undefined,
 }
 
-var ProxySingletonCreateGloble = (function() {
-    var instance;
-    return function() {
-        if (!instance) {
-            instance = new Globle();
-        }
-        return instance;
-    }
-})();
+cc.info("-------------- init Global end --------------- ")
