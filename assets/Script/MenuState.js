@@ -18,7 +18,7 @@ cc.Class({
         var self = this;
         self.newGameBtn.node.on(cc.Node.EventType.TOUCH_END,function(event){
              self.newGameBtn.node.runAction(cc.blink(0.8,10));
-             Globle.gameMain.changeState(self.state);
+             Globle.gameMain.changeState(Const.gameState.kPlay);
         });
             
     },

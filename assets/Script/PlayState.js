@@ -1,32 +1,15 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+var Const = require('./Const.js')
+
+//var Block = require("./Block.js")
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        blocksPrefab : {
+            default: [],
+            type: [cc.Prefab]     // type 同样写成数组，提高代码可读性
+        },     
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -44,21 +27,51 @@ cc.Class({
     },
 
     onEnter(){
+        // var self = this;
+        // cc.loader.loadRes("Prefabs/block_0", function (err, prefab) {
+        //     var newNode = cc.instantiate(prefab);
+        //     newNode.parent = self.node;
+        // });
+        this.creatBlocks()
+    },
 
+    rand ( n ){
+         return ( Math.floor ( Math.random ( ) * n + 1 ) );
     },
 
     creatBlocks(){
-        var max_row = Globle.const.MAX_ROW; //最大行
-        var max_col = Globle.const.MAX_COLUMN;//最大列
+
+         cc.info("Const.LEFT_MARGIN  "+ Const.LEFT_MARGIN);
+         cc.info("Const.kBlockWidth  "+ Const.kBlockWidth);
+         
+        var max_row = Const.MAX_ROW; //最大行
+        var max_col = Const.MAX_COLUMN;//最大列
         for(var i = max_row - 1; i > 0; --i){
             for(var j = 0; j < max_col; ++j){
-                
-                createBlockAtRow(i,j,)
+                this.createBlockAtRow(i, j, this.rand(Const.blockColor.kMaxBlockColor - 1));
             }
         }
     },
 
     createBlockAtRow(row,column,color){
+        
+        var self = this;
+        // cc.loader.loadRes("Prefabs/block_"+color, function (err, prefab) {
 
+        // });
+            var newNode = cc.instantiate(this.blocksPrefab[color]);
+            newNode.parent = self.node;
+            var block = newNode.getComponent("Block")
+
+            cc.info(row+"  "+ column);
+            
+            var pos = self.originBlockPositionAtRow(row,column);
+            block.setPosition(pos) 
+            cc.info(pos);
+    },
+
+
+   originBlockPositionAtRow(row, column ){
+	    return new cc.Vec2(Const.LEFT_MARGIN + Const.kBlockWidth * (column + 0.5), Const.BOTTOM_MARGIN + Const.kBlockHeight * (row + 0.5));
     },
 });

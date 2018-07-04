@@ -23,4 +23,3 @@ window.Globle = {
     gameMain:undefined,
 }
 
-cc.info("-------------- init Global end --------------- ")

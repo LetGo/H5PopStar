@@ -15,6 +15,8 @@ cc.Class({
 
     properties: {
         menuState:cc.Component,
+        stageState:cc.Component,        
+        playState:cc.Component,
         _states:[],
         _currState:null,
         _stage:-1,
@@ -26,23 +28,26 @@ cc.Class({
      onLoad () {
         require("./Globle.js");
         Globle.gameMain = this;
-        this.states[Const.gameState.kMenu] = this.menuState;
-        cc.info('1111111111111111');
+        this._states[Const.gameState.kMenu] = this.menuState;
+        this._states[Const.gameState.kStage] = this.stageState;
+        this._states[Const.gameState.kPlay] = this.playState;
+        
+ cc.info("-------------- gamemain --------------- ")
      },
 
     start () 
     {
         cc.info('222222222222222');
         
-        this.changeState(Const.gameState.kMenu)
+       // this.changeState(Const.gameState.kMenu)
     },
 
     
     changeState(state){
         cc.info("state  "+state);
-        var setState = this.states[state];
-        if(_currState != null){
-            _currState.onExiter();
+        var setState = this._states[state];
+        if(this._currState != null){
+            this._currState.onExiter();
         }
         if(setState != undefined){
             setState.onEnter();
