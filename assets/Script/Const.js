@@ -16,12 +16,19 @@ BlockColor.kYellow = 3;
 BlockColor.kPurple = 4;
 BlockColor.kMaxBlockColor = 5;
 
+var BlockState ={
+    kNormal:0,
+    kDestroy:1,
+    kMove:2,
+};
+
 var Const ={
-    kScreenWidth:320,
-    kScreenHeight:480,
+    FPS:50,
+    kScreenWidth:640,
+    kScreenHeight:960,
    
-    kBlockWidth:32,
-    kBlockHeight:32,
+    kBlockWidth:64,
+    kBlockHeight:64,
 
 
     LEFT_MARGIN:0,
@@ -34,16 +41,17 @@ var Const ={
 
     gameState:GameState,
     blockColor:BlockColor,
+    blockState:BlockState,
 
     init:function(){
         this.kPlateWidth = (this.kBlockWidth * this.MAX_COLUMN);
         this.kPlateHeight = (this.kBlockHeight * this.MAX_ROW);
         this.LEFT_MARGIN = (this.kScreenWidth - this.kPlateWidth) * 0.5;
-        this.BOTTOM_MARGIN = this.LEFT_MARGIN +30;
-        cc.info("-------------- Const.init  --------------- "+this.LEFT_MARGIN )
+        this.BOTTOM_MARGIN = this.LEFT_MARGIN + 30;
+        cc.info("-------------- this.BOTTOM_MARGIN --------------- "+this.BOTTOM_MARGIN )
     },
 };
 
 Const.init()
- cc.info("-------------- Const.LEFT_MARGIN  --------------- "+Const.kScreenWidth )
+
 module.exports = Const;

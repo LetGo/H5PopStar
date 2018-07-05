@@ -1,12 +1,4 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+
 var Const = require('./Const.js')
 
 cc.Class({
@@ -21,6 +13,19 @@ cc.Class({
         _currState:null,
         _stage:-1,
         _score:0,
+        hasTouchTriggered:{
+            get(){
+                return this._hasTouchTriggered;
+            },
+            set(value){
+                this._hasTouchTriggered = value;
+            },
+        },
+        frameCnt:{
+            get(){
+                return this._frameCnt;
+            },
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -32,7 +37,9 @@ cc.Class({
         this._states[Const.gameState.kStage] = this.stageState;
         this._states[Const.gameState.kPlay] = this.playState;
         
- cc.info("-------------- gamemain --------------- ")
+        this.hasTouchTriggered = false;
+        this._frameCnt = 0;
+        cc.info("-------------- gamemain --------------- ")
      },
 
     start () 
@@ -55,7 +62,15 @@ cc.Class({
             cc.info('setState null ' + state);
             
         }
-        
+        this._currState = setState;
     },
-    // update (dt) {},
+
+    update (dt) {
+        if(this._currState != null){
+            this._currState.onUpdate(dt);
+        }else {
+            cc.info('this._currState null ');
+        }
+        this._frameCnt++;
+    },
 });
