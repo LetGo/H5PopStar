@@ -27,15 +27,24 @@ cc.Class({
     },
 
     onEnter(){
+        this.node.opacity = 255;
+        
         Globle.gameMain.initStage();
         stageLable.string = "关卡" +  (Globle.gameMain.stage + 1);
         stageLable.node.position = new cc.Vec2(500,0);
 
-        //var easy1 = new cc.easeOut(1.5,new Vec2(500,0),0.15);
+        var easy1 = new cc.easeOut(0.15);
+        var delay = new cc.delayTime(2.0);
+        var easy2 = new cc.easeOut(0.15);
+        
+        var seq = new cc.sequence(easy1,delay,easy2);
+
+        stageLable.node.runAction(seq);
     },
 
     onExit(){
-
+        this.node.opacity = 0;
+        cc.info("stage onExit");
     },
     onUpdate(dt){
 

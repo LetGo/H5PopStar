@@ -45,6 +45,8 @@ cc.Class({
         this._states[Const.gameState.kStage] = this.stageState;
         this._states[Const.gameState.kPlay] = this.playState;
         
+
+
         this.hasTouchTriggered = false;
         this._frameCnt = 0;
         this._visualScore = 0;
@@ -55,8 +57,14 @@ cc.Class({
 
     start () 
     {
-        cc.info('222222222222222');
-        
+        for (let index = 0; index < this._states.length; index++) {
+            const element = this._states[index];
+            if(element != null){
+                cc.info("============= "+element);
+                element.onExit();
+            }
+        }
+
         this.changeState(Const.gameState.kMenu)
     },
 
@@ -64,10 +72,11 @@ cc.Class({
     changeState(state){
         cc.info("state  "+state);
         var setState = this._states[state];
+   
         if(this._currState != null){
             this._currState.onExit();
         }
-        if(setState != undefined){
+        if(setState != null){
             setState.onEnter();
         }else{
             cc.info('setState null ' + state);

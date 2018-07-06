@@ -82,12 +82,13 @@ cc.Class({
         //     var newNode = cc.instantiate(prefab);
         //     newNode.parent = self.node;
         // });
+        this.node.opacity = 255;
         Globle.gameMain.hasTouchTriggered = true;
         this.creatBlocks()
     },
 
     onExit(){
-
+        this.node.opacity = 0;
     },
 
     clear() {
