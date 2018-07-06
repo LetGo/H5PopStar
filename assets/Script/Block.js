@@ -4,12 +4,20 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        color:{
+        playState:{
             get(){
-                return this._color;
+                return this._playState;
             },
             set(value){
-                this._color = value;
+                this._playState= value;
+            },
+        },
+        blockColor:{
+            get(){
+                return this._blockColor;
+            },
+            set(value){
+                this._blockColor = value;
             },
         },
         movePos:{
@@ -75,7 +83,55 @@ cc.Class({
             get(){
                 return this._selected;
             }
-        }
+        },
+        velocity:{
+            get(){
+                return this._velocity;
+            },
+            set(value){
+                this._velocity = value;
+            },
+        },
+        destroyDelay:{
+            get(){
+                return this._destroyDelay;
+            },
+            set(value){
+                this._destroyDelay = value;
+            },
+        },
+        visited:{
+            get(){
+                return this._visited;
+            },
+            set(value){
+                this._visited = value;
+            }
+        },
+        subScore:{
+            get(){
+                return this._subScore;
+            },
+            set(value){
+                this._subScore = value;
+            },
+        },
+        destroySeq:{
+            get(){
+                return this._destroySeq;
+            },
+            set(value){
+                this._destroySeq = value;
+            },
+        },
+        accel:{
+            get(){
+                return this._accel;
+            },
+            set(value){
+                this._accel = value;
+            },
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -85,11 +141,21 @@ cc.Class({
         this._destroyDelay =0;
         this._velocity = 0;
         this._accel = 0;
-
+        this._visited = false;
+        this._column = 0;
+        this._row =0; 
+        this._selectCount = 0;
+        
+        this.button = this.node.getComponent(cc.Button);
+        this.node.on('click', this.onClickBlock, this);
         this.blockOutLine = cc.find("select",this.node).getComponent(cc.Sprite);
         if(this.blockOutLine != null){
             this.blockOutLine.enabled = false;
         }
+     },
+
+     onClickBlock(event){
+        this.playState.onSelect(this);
      },
 
     start () {
@@ -101,15 +167,15 @@ cc.Class({
     },
 
     setPos( r,  c){
-        this.column = c;
-        this.row = r;
+        this._column = c;
+        this._row = r;
     },
 
-    update (dt) {
-        if(this._selected){
-            this.blockOutLine.node.position = new cc.Vec2(Const.kBlockWidth*0.5, Const.kBlockHeight * 0.5); 
-        }
-    },
+    // update (dt) {
+    //     if(this._selected){
+    //         this.blockOutLine.node.position = new cc.Vec2(0,0); 
+    //     }
+    // },
 
     move(dt){
         if( this._destroyDelay > 0 )
@@ -149,6 +215,13 @@ cc.Class({
             this._state = Const.blockState.kNormal;
         }
     },
+
+    onSelect(selectedBlockCount){
+        this._selected = true;
+        this.node.runAction(cc.jumpTo(Const.JUMP_DURATION,this.position,3,1));
+        this.blockOutLine.enabled = true;
+    },
+
     onDeselect()
     {
         if( this._selected )
@@ -159,4 +232,32 @@ cc.Class({
             this.blockOutLine.node.stopAllActions();
         }
     },
+
+    createSubScoreTo( pos )
+    {
+        // display sub score image
+    
+        // CCString* labelName = CCString::createWithFormat("%d", _subScore );
+    
+        // //MovingLabel *label = [MovingLabel labelWithString:string position:self.position];
+    
+        // MovingLabel *label = MovingLabel::labelWithString( labelName, getPosition());
+    
+        // //[label setRGB:255 :255 :255];
+        // label->setColor(ccc3(255,255,255));
+    
+        // label->setScale(0.5f);
+    
+        // //id scaleDownAction = [CCScaleTo actionWithDuration:1.0f scale:0.25f];
+        // CCScaleTo* scaleDownAction = CCScaleTo::create(1.f, 0.25f);
+    
+        // //id moveDownAction = [EasyOut actionWithDuration:1.5f position:pos ratio:0.1f];
+        // EasyOut* moveDownAction = EasyOut::create(1.f, pos, 0.1f);
+    
+        // //[label runAction: [CCSpawn actions:scaleDownAction, moveDownAction, nil]];
+        // label->runAction(CCSpawn::create(scaleDownAction, moveDownAction, NULL));
+    
+        // //[g_mainLayer addChild: label z:1];
+        // g_mainLayer->addChild(label, 1 );
+    }    
 });

@@ -39,6 +39,9 @@ cc.Class({
         
         this.hasTouchTriggered = false;
         this._frameCnt = 0;
+
+        
+        
         cc.info("-------------- gamemain --------------- ")
      },
 
@@ -46,15 +49,15 @@ cc.Class({
     {
         cc.info('222222222222222');
         
-       // this.changeState(Const.gameState.kMenu)
+        this.changeState(Const.gameState.kMenu)
     },
 
-    
+
     changeState(state){
         cc.info("state  "+state);
         var setState = this._states[state];
         if(this._currState != null){
-            this._currState.onExiter();
+            this._currState.onExit();
         }
         if(setState != undefined){
             setState.onEnter();

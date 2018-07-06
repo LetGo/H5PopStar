@@ -23,7 +23,20 @@ var BlockState ={
 };
 
 var Const ={
+    ClearScore:[
+        1000,
+        3000,
+        6000,
+        8000,
+        10000,
+        13000,
+        15000,
+        17000,
+        20000,
+    ],
+
     FPS:50,
+    kMaxStage:9,
     kScreenWidth:640,
     kScreenHeight:960,
    
@@ -39,6 +52,9 @@ var Const ={
     kPlateWidth:0,//(kBlockWidth * MAX_COLUMN),
     kPlateHeight:0,//(kBlockHeight * MAX_ROW),
 
+    JUMP_DURATION:0.16,
+    BLOCK_ROTATE_INTERVAL:0.12,
+    
     gameState:GameState,
     blockColor:BlockColor,
     blockState:BlockState,
@@ -48,6 +64,8 @@ var Const ={
         this.kPlateHeight = (this.kBlockHeight * this.MAX_ROW);
         this.LEFT_MARGIN = (this.kScreenWidth - this.kPlateWidth) * 0.5;
         this.BOTTOM_MARGIN = this.LEFT_MARGIN + 30;
+        this.POS_SCOREBOARD = new cc.Vec2(320,862);
+
         cc.info("-------------- this.BOTTOM_MARGIN --------------- "+this.BOTTOM_MARGIN )
     },
 };

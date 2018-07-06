@@ -13,14 +13,13 @@ cc.Class({
     },
 
     onLoad () {
-        this.state = Const.gameState.kMenu;
-        //这里一定要用self，因为注册里的this代表的就不是这个this了
-        var self = this;
-        self.newGameBtn.node.on(cc.Node.EventType.TOUCH_END,function(event){
-             self.newGameBtn.node.runAction(cc.blink(0.8,10));
-             Globle.gameMain.changeState(Const.gameState.kPlay);
-        });
-            
+        this.state = Const.gameState.kMenu;        
+        this.newGameBtn.node.on(cc.Node.EventType.TOUCH_END,this.onNewGame,this);            
+    },
+
+    onNewGame(event){
+        this.newGameBtn.node.runAction(cc.blink(0.8,10));
+        Globle.gameMain.changeState(Const.gameState.kPlay);
     },
 
     start () 
@@ -33,8 +32,10 @@ cc.Class({
         this.node.opacity = 255;
     },
 
-    onExiter(param){
+    onExit(param){
         this.node.opacity = 0;
     },
-    // update (dt) {},
+    onUpdate(dt){
+
+    },
 });
