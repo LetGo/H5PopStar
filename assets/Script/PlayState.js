@@ -10,8 +10,28 @@ cc.Class({
             default: [],
             type: [cc.Prefab]     // type 同样写成数组，提高代码可读性
         },     
-        blocks: [],
-        
+        targetScoreLable:{
+            default:null,
+            type:cc.Label,
+        },
+        stageLable:{
+            default:null,
+            type:cc.Label,
+        },  
+        currScoreLable:{
+            default:null,
+            type:cc.Label,
+        },   
+        stage:{
+            get(){
+                return this._stage;
+            },
+        },
+        score:{
+            get(){
+                return this._score;
+            },
+        },        
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -30,6 +50,7 @@ cc.Class({
         this._score = 0;
         this._stage = 0;
         this._didDisplayStageClear = false;
+        this._visualScore = 0;
     },
 
     start () {
@@ -68,6 +89,21 @@ cc.Class({
     onExit(){
 
     },
+
+    clear() {
+        for( var i = Const.MAX_ROW - 1; i >= 0; --i ) {
+            for( var j = 0; j < Const.MAX_COLUMN; ++j ) {
+                if( this.blocks[i][j] != null ) {
+                    
+                    this.blocks[i][j].node.destroy();
+                    //removeChild(_blocks[i][j], false);
+
+                    this.blocks[i][j] = null;
+                }
+            }
+        }
+    },
+
     rand( n ){
          return ( Math.floor ( Math.random ( ) * n + 1 ) );
     },
@@ -570,4 +606,27 @@ cc.Class({
     displayStageClear(){
 
     },
+
+    updateScore()
+    {
+        if( this._score == 0 ) {
+            this._visualScore = 0;
+        } else {
+            var step = (this._score - this._visualScore) * 0.04;
+            if(Math.fabs(step) < 0.05) {
+                step = 0.05 * ((step > 0)?1:-1);
+            }
+            this._visualScore += step;
+            if (Math.fabs(this._score-this._visualScore) < 0.1) {
+                this._visualScore = this._score;
+            }
+        }
+        this.playState.currScoreLable.string = this._visualScore+"";
+
+    },
+
+    initStageLabels(){
+        this.playState.stageLable.string = this._stage + 1 + "";
+        this.playState.targetScoreLable.string = this.getClearScore() + "";
+    }, 
 });

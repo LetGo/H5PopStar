@@ -11,8 +11,16 @@ cc.Class({
         playState:cc.Component,
         _states:[],
         _currState:null,
-        _stage:-1,
-        _score:0,
+        stage:{
+            get(){
+                return this.playState.stage;
+            },
+        },
+        score:{
+            get(){
+                return this.playState.score;
+            },
+        },
         hasTouchTriggered:{
             get(){
                 return this._hasTouchTriggered;
@@ -39,7 +47,7 @@ cc.Class({
         
         this.hasTouchTriggered = false;
         this._frameCnt = 0;
-
+        this._visualScore = 0;
         
         
         cc.info("-------------- gamemain --------------- ")
@@ -67,6 +75,17 @@ cc.Class({
         }
         this._currState = setState;
     },
+
+    initStage(){
+        this._hasTouchTriggered = true;
+        this.playState._didDisplayStageClear = false;
+        this.playState.clear();
+        this.playState.updateScore();
+        this.playState.initStageLabels();
+
+    },
+
+
 
     update (dt) {
         if(this._currState != null){

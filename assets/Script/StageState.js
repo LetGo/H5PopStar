@@ -12,21 +12,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        stageLable:{
+            default:null,
+            type:cc.Label,
+        },  
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -37,5 +26,19 @@ cc.Class({
 
     },
 
+    onEnter(){
+        Globle.gameMain.initStage();
+        stageLable.string = "关卡" +  (Globle.gameMain.stage + 1);
+        stageLable.node.position = new cc.Vec2(500,0);
+
+        //var easy1 = new cc.easeOut(1.5,new Vec2(500,0),0.15);
+    },
+
+    onExit(){
+
+    },
+    onUpdate(dt){
+
+    },
     // update (dt) {},
 });
