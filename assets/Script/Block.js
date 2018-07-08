@@ -145,6 +145,10 @@ cc.Class({
         this._column = 0;
         this._row =0; 
         this._selectCount = 0;
+        this._state = Const.blockState.kNormal;
+        this._subScore = 0;
+        this._moveDelay = 0;
+        this._destroySeq = 0;
         
         this.button = this.node.getComponent(cc.Button);
         this.node.on('click', this.onClickBlock, this);

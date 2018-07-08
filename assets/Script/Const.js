@@ -47,13 +47,16 @@ var Const ={
     LEFT_MARGIN:0,
     BOTTOM_MARGIN:0,
 
-    MAX_COLUMN:10,
-    MAX_ROW:10,
+    MAX_COLUMN:5,
+    MAX_ROW:5,
     kPlateWidth:0,//(kBlockWidth * MAX_COLUMN),
     kPlateHeight:0,//(kBlockHeight * MAX_ROW),
 
+    MAX_BONUS:2000,
+
     JUMP_DURATION:0.16,
     BLOCK_ROTATE_INTERVAL:0.12,
+    kMaxParticleEmitter:15,
     
     gameState:GameState,
     blockColor:BlockColor,
