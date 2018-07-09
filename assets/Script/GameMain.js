@@ -109,11 +109,9 @@ cc.Class({
         },
         visualScore:{
             get(){
-                cc.info('get._visualScore ' + this._visualScore);
                 return this._visualScore;
             },
             set(value){
-                cc.info('set._visualScore ' + value);
                 this._visualScore = value;
             },
         },
@@ -133,6 +131,14 @@ cc.Class({
                 this._resumedGame = value;
             }
         },
+        showPopup:{
+            get(){
+                return this._showPopup;
+            },
+            set(value){
+                this._showPopup = value;
+            },
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -151,6 +157,14 @@ cc.Class({
             }
         }
 
+        this.unUseBlockdic = new Array();
+        this.unUseBlockdic[Const.blockColor.kRed] = new Array();
+        this.unUseBlockdic[Const.blockColor.kBlue] = new Array();
+        this.unUseBlockdic[Const.blockColor.kGreen] = new Array();
+        this.unUseBlockdic[Const.blockColor.kPurple] = new Array();
+        this.unUseBlockdic[Const.blockColor.kYellow] = new Array();
+
+        
         this.init();
 
         this._states[Const.gameState.kMenu] = this.menuState;
@@ -405,16 +419,12 @@ cc.Class({
             }
         }
     },
-    creatBlocks(){
-
-        cc.info("Const.LEFT_MARGIN  "+ Const.LEFT_MARGIN);
-        cc.info("Const.kBlockWidth  "+ Const.kBlockWidth);
-        
+    creatBlocks(){        
        var max_row = Const.MAX_ROW; //最大行
        var max_col = Const.MAX_COLUMN;//最大列
        for(var i = max_row - 1; i >= 0; --i){
            for(var j = 0; j < max_col; ++j){
-               var block = this.createBlockAtRow(i, j, this.rand(Const.blockColor.kMaxBlockColor - 1));
+               var block = this.createBlockAtRow(i, j, this.rand(100000) % Const.blockColor.kMaxBlockColor);
                block.movePos = block.position;
                block.position = new cc.Vec2(block.position.x,block.position.y + 400 + i * 60 + j * 5 + this.rand( 50 ) );
                block.state = Const.blockState.kMove;
@@ -427,23 +437,53 @@ cc.Class({
     },
 
    createBlockAtRow(row,column,color){
-    
-    var newNode = cc.instantiate(this.blocksPrefab[color]);
+        var block = this.getBlock(color)
+        this.setBlockAtRow( row, column, block );
+        var pos = this.originBlockPositionAtRow(row,column);
+        block.setPosition(pos) 
+        return block;
+    },
 
-    newNode.parent = this.blockRoot;
-    var block = newNode.getComponent("Block")
-    block.playState = this;
-    block.blockColor = color;
-    this.setBlockAtRow( row, column, block );
-    var pos = this.originBlockPositionAtRow(row,column);
-    block.setPosition(pos) 
-    return block;
+    getBlock(color){
+        var array = this.unUseBlockdic[color];
+        if(array != null){
+            if(array.length > 0){
+                var block = array.pop();
+                block.node.active = true;
+                block.reset();
+                return block;
+            }else{
+                var newNode = cc.instantiate(this.blocksPrefab[color]);
+                newNode.parent = this.blockRoot;
+                var block = newNode.getComponent("Block")
+                block.playState = this;
+                block.blockColor = color                
+                return block;
+            }
+        }else{
+            cc.error('getBlock error ' + color);
+        }
+    },
+
+    destroyBlock(block){
+        if(block == null){
+            return;
+        }
+        block.node.active = false;
+        var array = this.unUseBlockdic[block.blockColor];
+        if(array != null){
+            array.push(block);
+        }else{
+            this.unUseBlockdic[block.blockColor] = new Array();
+            this.unUseBlockdic[block.blockColor].push(block);
+        }
     },
 
     setBlockAtRow( row,  column, block){
         this.blocks[row][column] = block;
         if(block != null){
             block.setPos(row,column);
+            block.node.active = true;
         }
     },
 
@@ -905,8 +945,9 @@ cc.Class({
                         }					
     
                         block.onDeselect();
-                        cc.info("destroy block index"+ block.row + "  " + block.column);
-                        block.node.destroy();
+                        //cc.info("destroy block index"+ block.row + "  " + block.column);
+                        //block.node.destroy();
+                        this.destroyBlock(block);
                        // removeChild(block, true);
 
                         this.blocks[i][j] = null;
@@ -948,5 +989,15 @@ cc.Class({
                 }
             }
         }
-    },                 
+    },  
+    
+    backToMainMenu()
+    {
+        
+        this.showHighScore(true);
+    // #if !defined(WP8)
+    //     endHammer();
+    //     enableHammer(false);
+    // #endif
+    },    
 });

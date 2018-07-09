@@ -24,6 +24,8 @@ cc.Class({
     },
 
     onEnter(){
+        this._delay = 4;
+        
         this.node.opacity = 255;
         this.stageLable.enabled = true;
         this.targetLable.enabled = true;

@@ -137,6 +137,13 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
      onLoad () {
+        this.button = this.node.getComponent(cc.Button);
+        this.node.on('click', this.onClickBlock, this);
+        this.blockOutLine = cc.find("select",this.node).getComponent(cc.Sprite);
+        this.reset();
+     },
+
+     reset(){
         this._selected = false;
         this._destroyDelay =0;
         this._velocity = 0;
@@ -149,13 +156,10 @@ cc.Class({
         this._subScore = 0;
         this._moveDelay = 0;
         this._destroySeq = 0;
-        
-        this.button = this.node.getComponent(cc.Button);
-        this.node.on('click', this.onClickBlock, this);
-        this.blockOutLine = cc.find("select",this.node).getComponent(cc.Sprite);
         if(this.blockOutLine != null){
             this.blockOutLine.enabled = false;
-        }
+        }  
+        
      },
 
      onClickBlock(event){

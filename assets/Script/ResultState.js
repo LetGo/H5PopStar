@@ -136,7 +136,7 @@ cc.Class({
                     // add bonus score
                     owner.score = owner.score + amountAdding;
                     owner.bonusGained = owner.bonusGained - amountAdding;
-
+                    cc.info('owner.bonusGained '+ owner.bonusGained)
                     
                     _bonusLabel.string = "奖励  "+ owner.bonusGained;
     
@@ -180,7 +180,7 @@ cc.Class({
             }else{
                 //TODO
                 cc.info(" 通关失败" + owner.bonusGained +"  " + owner.visualScore +"  " + owner.score);
-                owner.changeState(Const.gameState.kMenu);
+                owner.changeState(Const.gameState.kGameOver);
             }
         }
     },

@@ -47,8 +47,8 @@ var Const ={
     LEFT_MARGIN:0,
     BOTTOM_MARGIN:0,
 
-    MAX_COLUMN:5,
-    MAX_ROW:5,
+    MAX_COLUMN:10,
+    MAX_ROW:10,
     kPlateWidth:0,//(kBlockWidth * MAX_COLUMN),
     kPlateHeight:0,//(kBlockHeight * MAX_ROW),
 
